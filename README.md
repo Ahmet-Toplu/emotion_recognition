@@ -16,7 +16,7 @@ Emotion recognition is a process of identifying human emotions from facial expre
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/yourusername/emotion_recognition.git
+   git clone https://github.com/Ahmet-Toplu/emotion_recognition.git
    ```
 2. Navigate to the project directory:
    ```bash
