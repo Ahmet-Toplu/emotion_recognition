@@ -1,7 +1,6 @@
 tensorflow==2.10.0
-NumPy==1.23.5
-cv2==4.7.0
-sklearn
-random
-os
-matplotlib
+numpy==1.23.5
+matplotlib==3.10.0
+opencv-python==4.7.0.72
+kagglehub==0.3.6
+logging
