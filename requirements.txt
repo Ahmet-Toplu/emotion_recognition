@@ -4,3 +4,5 @@ matplotlib==3.10.0
 opencv-python==4.7.0.72
 kagglehub==0.3.6
 logging
+pillow==9.4.0
+PyQt6==6.5.0
