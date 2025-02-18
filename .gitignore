@@ -1,6 +1,9 @@
 # Ignore the fer2013_data folder and models folder
 fer2013_data
 models
+AffectNET
 AffectNET_Organised
 AffectNET_Unorganised
 custom_CLayer.ipynb
+cropped_mixed
+
