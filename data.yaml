@@ -1,0 +1,22 @@
+data: "${HOME}/.cache/kagglehub/datasets/fatihkgg/affectnet-yolo-format/versions/2/YOLO_format"
+
+train: "${HOME}/.cache/kagglehub/datasets/fatihkgg/affectnet-yolo-format/versions/2/YOLO_format/train/images"
+val: "${HOME}/.cache/kagglehub/datasets/fatihkgg/affectnet-yolo-format/versions/2/YOLO_format/valid/images"
+test: "${HOME}/.cache/kagglehub/datasets/fatihkgg/affectnet-yolo-format/versions/2/YOLO_format/test/images"
+
+nc: 8
+
+names:
+  [
+    "Anger",
+    "Contempt",
+    "Disgust",
+    "Fear",
+    "Happy",
+    "Neutral",
+    "Sad",
+    "Surprise",
+  ]
+
+# Network configuration (choose other variations if desired)
+network: "yolov8n"
