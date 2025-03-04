@@ -14,6 +14,7 @@ from PIL import Image, ImageTk
 import torch
 import numpy as np
 import os
+import csv
 import torchvision.transforms as transforms
 
 from facenet_classifier import FaceNetClassifier
@@ -48,7 +49,10 @@ def load_model():
     if ext == ".pth":
         # This must be a PyTorch model or a pickled object
         model = FaceNetClassifier()
-        state_dict = torch.load(full_path, map_location=torch.device('cuda'))
+        if torch.cuda.is_available():
+            state_dict = torch.load(full_path, map_location=torch.device('cuda'))
+        else:
+            state_dict = torch.load(full_path, map_location=torch.device('cpu'))
         model.load_state_dict(state_dict)
         # If it's a full PyTorch model, it should have .eval()
         try:
@@ -100,14 +104,14 @@ def predict_emotion(model, image_tensor):
 
 # Placeholder: map label index to string emotion
 EMOTION_MAP = {
-    0: "Angry",
-    1: "Disgust",
-    2: "Fear",
-    3: "Happy",
-    4: "Sad",
-    5: "Surprise",
-    6: "Neutral",
-    7: "Confused",
+    0: "Anger",
+    1: "Contempt",
+    2: "Disgust",
+    3: "Fear",
+    4: "Happy",
+    5: "Neutral",
+    6: "Sad",
+    7: "Surprise",
 }
 
 class EmotionGUI:
@@ -117,6 +121,7 @@ class EmotionGUI:
 
         # Load the model
         self.model = load_model()
+        self.test_labels = self._load_test_labels("./cropped_mixed/test/test_labels.csv")
 
         # Create frames: 
         # left side for images / camera feed, right side for chat
@@ -152,6 +157,19 @@ class EmotionGUI:
         self.test_image_files = sorted(os.listdir(self.test_images_folder))
         self.test_index = 0
 
+    def _load_test_labels(self, csv_path):
+        """Loads a CSV file of (filename, label) pairs into a dict."""
+        label_dict = {}
+        with open(csv_path, "r", newline="", encoding="utf-8") as f:
+            reader = csv.reader(f)
+            # If your CSV has a header, skip it:
+            # next(reader, None)
+            for row in reader:
+                # Adjust indices based on your CSV format
+                filename, label = row[0], row[1]
+                label_dict[filename] = label
+        return label_dict
+
     def open_test_images(self):
         """Show test images in a loop. Press Next to move forward, or do it automatically."""
         self.stop_live_camera()  # in case camera is running
@@ -185,7 +203,7 @@ class EmotionGUI:
         # Suppose your test image's label is in the filename or a separate label file
         # We'll pretend the filename is "happy_001.jpg" => ground truth "happy"
         # This is just a placeholder
-        ground_truth = img_file.split("_")[0] if "_" in img_file else "Unknown"
+        ground_truth = self.test_labels.get(img_file, "Unknown")
 
         # Preprocess and predict
         input_tensor = preprocess_image(img_bgr)
