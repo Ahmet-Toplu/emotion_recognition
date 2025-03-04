@@ -14,6 +14,7 @@ from PIL import Image, ImageTk
 import torch
 import numpy as np
 import os
+import torchvision.transforms as transforms
 
 from facenet_classifier import FaceNetClassifier
 
@@ -37,7 +38,7 @@ def load_model():
                 continue
     if model_accuracies:
         best_model = max(model_accuracies, key=model_accuracies.get)
-        full_path = os.path.join('.\models', best_model)
+        full_path = os.path.join('./models', best_model)
         print("Best model found:", best_model)
     else:
         print("No models found in the models folder.")
@@ -75,12 +76,18 @@ def preprocess_image(img_bgr):
     Convert BGR image from OpenCV to whatever your model expects 
     (e.g. transform to tensor, normalize, resize, etc.).
     """
-    # Example: just convert to RGB and do a naive transform
     img_rgb = cv2.cvtColor(img_bgr, cv2.COLOR_BGR2RGB)
-    # Convert to a tensor, etc. The details depend on your training code
-    # ...
-    # return your preprocessed tensor
-    return img_rgb
+    img_rgb = Image.fromarray(img_rgb)
+    
+    preprocess = transforms.Compose([
+        transforms.Resize((160, 160)),
+        transforms.ToTensor(),
+        transforms.Normalize(mean=[0.5, 0.5, 0.5], std=[0.5, 0.5, 0.5])
+    ])
+    
+    img_tensor = preprocess(img_rgb)
+    img_tensor = img_tensor.unsqueeze(0)  # Add batch dimension
+    return img_tensor
 
 def predict_emotion(model, image_tensor):
     """
@@ -191,7 +198,7 @@ class EmotionGUI:
         # Convert to PIL for display
         disp_img = cv2.cvtColor(img_bgr, cv2.COLOR_BGR2RGB)
         disp_img = Image.fromarray(disp_img)
-        disp_img = disp_img.resize((400, 400), Image.ANTIALIAS)
+        disp_img = disp_img.resize((400, 400), Image.LANCZOS)
         tk_img = ImageTk.PhotoImage(disp_img)
 
         # Put text overlay in the label or just display as text
