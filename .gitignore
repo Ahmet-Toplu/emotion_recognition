@@ -10,3 +10,5 @@ cropped_mixed
 .vscode/
 # ignore __pycache__ folder
 __pycache__/
+
+test.py
