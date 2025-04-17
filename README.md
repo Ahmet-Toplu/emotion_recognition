@@ -28,16 +28,7 @@ Emotion recognition is a process of identifying human emotions from facial expre
    ```
 
 ## Usage
-
-1. Prepare your dataset and place it in the `data` directory.
-2. Train the model:
-   ```bash
-   python train.py
-   ```
-3. Evaluate the model:
-   ```bash
-   python evaluate.py
-   ```
+Its designed to run easily, so just by running the ER_FaceNet.ipynb file it should create a model with approximate accuracy of 75.4% and save it as facenet_ec_{accuracy}.pth. After making the model you can run the emotion_gui.py to be able to test it using live camera and using the test images using a UI. The UI is made to work with other models as well the only thing needs to be changed is the classifier (facenet_classifier.py, this needed to be able to load the model for emotion_gui.py) and it will always choose the model with the best accuracy.
 
 ## Contributing
 
