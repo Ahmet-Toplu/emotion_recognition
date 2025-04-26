@@ -7,4 +7,8 @@ AffectNET_Unorganised
 custom_CLayer.ipynb
 cropped_mixed
 *.pth
+.vscode/
+# ignore __pycache__ folder
+__pycache__/
 
+test.py
